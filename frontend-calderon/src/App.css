@@ -1,0 +1,27 @@
+/* ===========================
+   App.css - Layout general
+   =========================== */
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; /* Siempre ocupa toda la ventana */
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem 1rem;
+  margin-top: 50px;
+  box-sizing: border-box;
+  background-color: var(--color-bg);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 1rem;
+    margin-top: 100px; /* Ajuste para navbar más alto en móvil */
+  }
+}

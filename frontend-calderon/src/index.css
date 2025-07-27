@@ -1,0 +1,108 @@
+:root {
+  font-family: "Inter", system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  /* ======== Paleta Principal (Modo Claro) ======== */
+  --color-bg: #e8f0fa;          /* Fondo general */
+  --color-surface: #f5f9ff;     /* Fondos secundarios */
+  --color-card: #ffffff;        /* Tarjetas / paneles */
+  --color-text: #2c3e50;        /* Texto principal */
+  --color-text-secondary: #546e7a; /* Texto secundario */
+  --color-border: #d0e1f9;      /* Bordes suaves */
+  
+  --color-primary: #5aa9e6;     /* Azul pastel principal */
+  --color-primary-hover: #428fd4;
+  --color-primary-light: #8ecdf5;
+
+  --color-secondary: #89c2d9;   /* Azul más claro */
+  --color-accent: #bee3f8;      /* Azul pálido */
+  
+  --color-success: #7fd1ae;     /* Verde pastel */
+  --color-warning: #fbc687;     /* Amarillo pastel */
+  --color-danger: #f28b82;      /* Rojo pastel */
+
+  --color-shadow: rgba(0, 0, 0, 0.08);
+
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+/* ======== Paleta (Modo Oscuro por sistema) ======== */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #1e2a38;
+    --color-surface: #2c3e50;
+    --color-card: #2e3d52;
+    --color-text: #eaf2fc;
+    --color-text-secondary: #aabed8;
+    --color-border: #3c5066;
+
+    --color-primary: #5aa9e6; 
+    --color-primary-hover: #76c1f5;
+    --color-primary-light: #9fd6f8;
+
+    --color-secondary: #6caecf;
+    --color-accent: #88c2e6;
+
+    --color-success: #81e6d9;
+    --color-warning: #f6ad55;
+    --color-danger: #fc8181;
+
+    --color-shadow: rgba(0, 0, 0, 0.25);
+
+    background-color: var(--color-bg);
+    color: var(--color-text);
+  }
+}
+#root {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+/* ======== Reset global ======== */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  font-family: inherit;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Enlaces */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Tipografía base */
+h1, h2, h3, h4 {
+  margin: 0;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+/* Botones */
+button {
+  border: none;
+  border-radius: 6px;
+  padding: 0.6em 1.2em;
+  background-color: var(--color-primary);
+  color: white;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: var(--color-primary-hover);
+}
