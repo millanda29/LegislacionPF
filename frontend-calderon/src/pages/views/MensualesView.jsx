@@ -6,6 +6,8 @@ import FileSelector from "../../components/FileSelector";
 import YearlyTable from "../../components/YearlyTable";
 import DataCompletenessCharts from "../../components/DataCompletenessCharts";
 
+const API_URL = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/chat/chatbot";
+
 const ITEMS_PER_PAGE = 20;
 
 const MensualesView = () => {
@@ -22,7 +24,7 @@ const MensualesView = () => {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:8000/files/data")
+      .get("${API_URL}/files/data")
       .then((res) => setFiles(res.data.files))
       .catch((err) => console.error(err));
   }, []);
@@ -37,14 +39,14 @@ const MensualesView = () => {
     setCurrentPage(1);
 
     axios
-      .get(`http://127.0.0.1:8000/precipitation/csv/data/${selectedFile}`)
+      .get(`${API_URL}/precipitation/csv/data/${selectedFile}`)
       .then((res) => setDataByYear(res.data.data))
       .catch((err) => console.error(err))
       .finally(() => setLoading(false));
   }, [selectedFile]);
 
   const getDownloadUrl = () =>
-    `http://127.0.0.1:8000/files/download/data/${selectedFile}`;
+    `${API_URL}/files/download/data/${selectedFile}`;
 
   const availableYears = useMemo(() => {
     if (!dataByYear) return [];

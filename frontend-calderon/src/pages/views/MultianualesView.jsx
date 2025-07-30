@@ -14,6 +14,8 @@ import {
   ResponsiveContainer
 } from "recharts";
 
+const API_URL = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/chat/chatbot";
+
 export default function MultianualesView() {
   // --- Estado para archivos y selección ---
   const [files, setFiles] = useState([]);
@@ -36,7 +38,7 @@ export default function MultianualesView() {
     const loadFiles = async () => {
       try {
         setLoading(true);
-        const res = await fetch("http://127.0.0.1:8000/files/data2");
+        const res = await fetch("${API_URL}/files/data2");
         if (!res.ok) throw new Error("No se pudo obtener la lista de archivos .xlsx");
         const data = await res.json();
         const list = data.files ?? [];
@@ -56,7 +58,7 @@ export default function MultianualesView() {
   // ---------------------------------------------------------
   const handleDownload = () => {
     if (!selectedFile) return;
-    const url = `http://127.0.0.1:8000/files/download/data2/${selectedFile}`;
+    const url = `${API_URL}/files/download/data2/${selectedFile}`;
     window.open(url, "_blank");
   };
 
@@ -69,7 +71,7 @@ export default function MultianualesView() {
       try {
         setLoading(true);
         setError(null);
-        const res = await fetch(`http://127.0.0.1:8000/precipitation/xlsx/data2/${selectedFile}`);
+        const res = await fetch(`${API_URL}/precipitation/xlsx/data2/${selectedFile}`);
         if (!res.ok) throw new Error("No se pudieron obtener los datos del archivo seleccionado");
         const json = await res.json();
         setRawData(json.data);
