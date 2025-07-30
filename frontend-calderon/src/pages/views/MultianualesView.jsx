@@ -119,17 +119,32 @@ export default function MultianualesView() {
   ), [climatologyByMonth, selectedYearSeries]);
 
   // --- Porcentaje de datos disponibles por AÑO ---
-  const dataCompletenessByYear = useMemo(() => {
-    if (!rawData) return [];
-    const yearsArr = rawData["AÑO"] ?? [];
-    return yearsArr.map((year, idx) => {
+const dataCompletenessByYear = useMemo(() => {
+  if (!rawData) return [];
+
+  const yearsArr = rawData["AÑO"] ?? [];
+
+  return yearsArr
+    .map((year, idx) => {
       if (!year) return null;
+
+      // Extraemos los valores de los 12 meses para el año actual
       const values = MONTH_KEYS.map((k) => rawData[k]?.[idx] ?? null);
-      const validValues = values.filter((v) => v != null && !isNaN(v));
+
+      // Filtramos valores numéricos válidos (meses con datos)
+      const validValues = values.filter((v) => typeof v === "number" && !isNaN(v));
+
+      // Calculamos el % de meses con datos disponibles
       const completeness = (validValues.length / MONTH_KEYS.length) * 100;
-      return { year, completeness: completeness.toFixed(1) };
-    }).filter(Boolean);
-  }, [rawData]);
+
+      return { 
+        year, 
+        completeness: Number(completeness.toFixed(1)) // lo dejamos como número
+      };
+    })
+    .filter(Boolean); // Eliminamos nulos
+}, [rawData]);
+
 
   // --- Promedio anual ---
   const annualTrend = useMemo(() => {
