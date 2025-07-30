@@ -20,9 +20,9 @@ STATION_MAP = {
 
 def extract_precipitation_csv(directory: str, filename: str):
     """
-    Lee un CSV con datos en columnas desde un directorio específico,
+    Lee un CSV con datos en filas desde un directorio específico,
     limpia NaN, infinitos y valores inválidos,
-    y devuelve un JSON compatible para FastAPI.
+    agrupa por año y devuelve un JSON compatible para FastAPI.
     """
     filename = unquote(filename)
     data_dir: Path = DATA_DIRS.get(directory)
@@ -42,21 +42,39 @@ def extract_precipitation_csv(directory: str, filename: str):
             return {"error": f"El archivo {filename} no tiene las columnas requeridas: {expected_cols}"}
 
         df = df[expected_cols]
-        df.replace([np.inf, -np.inf], np.nan, inplace=True)
-        df = df.where(pd.notnull(df), None)
 
-        data_dict = df.to_dict(orient='list')
+        # Convertir 'fecha' a datetime
+        df['fecha'] = pd.to_datetime(df['fecha'], format='%Y/%m/%d', errors='coerce')
+        if df['fecha'].isnull().all():
+            return {"error": "Las fechas no tienen el formato esperado (YYYY/MM/DD)."}
 
+        # Extraer el año
+        df['anio'] = df['fecha'].dt.year
+
+        # Función para limpiar cada valor
         def clean_value(val):
-            if isinstance(val, float):
-                if np.isnan(val) or np.isinf(val):
-                    return None
-            return val
+            if pd.isna(val) or val in [np.inf, -np.inf]:
+                return None
+            return float(val) if isinstance(val, (int, float, np.number)) else val
 
-        for key in data_dict:
-            data_dict[key] = [clean_value(v) for v in data_dict[key]]
+        # Convertir a lista de dicts, limpiando valores
+        records = []
+        for _, row in df.iterrows():
+            record = {
+                "fecha": row["fecha"].strftime("%Y/%m/%d"),
+                "valor": clean_value(row["valor"]),
+                "completo_mediciones": clean_value(row["completo_mediciones"]),
+                "completo_umbral": clean_value(row["completo_umbral"]),
+            }
+            anio = row["anio"]
+            records.append((anio, record))
 
-        return {"filename": filename, "directory": directory, "data": jsonable_encoder(data_dict)}
+        # Agrupar por año
+        data_by_year = {}
+        for anio, record in records:
+            data_by_year.setdefault(anio, []).append(record)
+
+        return {"filename": filename, "directory": directory, "data": data_by_year}
 
     except Exception as e:
         return {"error": f"No se pudo leer el archivo: {str(e)}"}

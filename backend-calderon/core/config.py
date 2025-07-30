@@ -10,6 +10,9 @@ DATA_DIRS = {
     "data4": BASE_DIR / "data4",
 }
 
+MODELS_DIR = BASE_DIR / "models"
+MODELS_DIR.mkdir(exist_ok=True)
+
 # Lista de orígenes permitidos para CORS
 CORS_ORIGINS = [
     "http://localhost:3000",
