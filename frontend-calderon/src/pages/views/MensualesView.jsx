@@ -6,7 +6,7 @@ import FileSelector from "../../components/FileSelector";
 import YearlyTable from "../../components/YearlyTable";
 import DataCompletenessCharts from "../../components/DataCompletenessCharts";
 
-const API_URL = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/chat/chatbot";
+const API_URL = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
 
 const ITEMS_PER_PAGE = 20;
 
@@ -24,7 +24,7 @@ const MensualesView = () => {
 
   useEffect(() => {
     axios
-      .get("${API_URL}/files/data")
+      .get(`${API_URL}/files/data`)
       .then((res) => setFiles(res.data.files))
       .catch((err) => console.error(err));
   }, []);

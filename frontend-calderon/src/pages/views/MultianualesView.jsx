@@ -14,7 +14,7 @@ import {
   ResponsiveContainer
 } from "recharts";
 
-const API_URL = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/chat/chatbot";
+const API_URL = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
 
 export default function MultianualesView() {
   // --- Estado para archivos y selección ---
@@ -38,7 +38,7 @@ export default function MultianualesView() {
     const loadFiles = async () => {
       try {
         setLoading(true);
-        const res = await fetch("${API_URL}/files/data2");
+        const res = await fetch(`${API_URL}/files/data2`);
         if (!res.ok) throw new Error("No se pudo obtener la lista de archivos .xlsx");
         const data = await res.json();
         const list = data.files ?? [];

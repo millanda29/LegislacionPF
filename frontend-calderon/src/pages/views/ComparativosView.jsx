@@ -15,7 +15,7 @@ import {
   Cell,
 } from "recharts";
 
-const API_URL = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000/chat/chatbot";
+const API_URL = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:8000";
 /**
  * ComparativosView
  * - Compara varias columnas (estaciones) de un dataset multi-columna.
@@ -55,7 +55,7 @@ export default function ComparativosView() {
     const loadFiles = async () => {
       try {
         setLoading(true);
-        const res = await fetch("${API_URL}/files/data3");
+        const res = await fetch(`${API_URL}/files/data3`);
         if (!res.ok) throw new Error("No se pudo obtener la lista de archivos para comparación (data3)");
         const data = await res.json();
         const list = data.files || [];
