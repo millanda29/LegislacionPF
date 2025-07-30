@@ -79,6 +79,8 @@ dmypy.json
 # VS Code settings
 .vscode/
 
+.idea/
+
 # Local files
 *.log
 *.sqlite3
