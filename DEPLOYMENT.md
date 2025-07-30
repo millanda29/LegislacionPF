@@ -102,9 +102,9 @@ cd frontend-calderon
 ```
 
 2. **Verificar la configuración de la API**
-Editar `src/api/water.js` para apuntar a tu backend de Heroku:
-```javascript
-const API_BASE = process.env.REACT_APP_API_URL || "https://tu-backend.herokuapp.com";
+Crear archivo `.env` en `frontend-calderon/`:
+```env
+VITE_API_BASE_URL=https://tu-backend.herokuapp.com
 ```
 
 3. **Construir localmente (opcional, para pruebas)**
@@ -136,7 +136,7 @@ vercel --prod
 3. **Ir a Settings > Environment Variables**
 4. **Agregar las variables:**
 ```
-REACT_APP_API_URL=https://tu-backend.herokuapp.com
+VITE_API_BASE_URL=https://tu-backend.herokuapp.com
 ```
 
 ### Paso 4: Configurar Dominio Personalizado (Opcional)
